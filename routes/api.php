@@ -37,7 +37,7 @@ Route::middleware('jwt.verify')->controller(UserController::class)->group(functi
 Route::prefix('password')->controller(ForgotPasswordController::class)->group(function () {
     Route::post('email',  'index');
     Route::post('code/check', 'checkCode');
-    Route::post('reset', 'resetPassword');
+    Route::put('reset', 'resetPassword');
 }); 
 
 
