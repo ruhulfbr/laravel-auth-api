@@ -3,11 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\ResetCodePassword;
-use App\Mail\SendCodeResetPassword;
-use App\Http\Controllers\Controller;
-use Illuminate\Support\Facades\Mail;
-use Illuminate\Http\Request;
 use App\Models\User;
+use Illuminate\Http\Request;
 
 class ForgotPasswordController extends Controller
 {
@@ -20,8 +17,8 @@ class ForgotPasswordController extends Controller
         if ($validator->fails()) {
             $response['response'] = $validator->messages();
             return response()->json([
-                'status'        => 'error',
-                'message'       => $validator->messages()
+                'status'  => 'error',
+                'message' => $validator->messages()
             ], 411);
         }
 
@@ -41,7 +38,8 @@ class ForgotPasswordController extends Controller
         ]);
     }
 
-    public function checkCode(Request $request){
+    public function checkCode(Request $request)
+    {
         $validator = \Validator::make($request->all(), [
             'code' => 'required|string|exists:reset_code_passwords',
         ]);
@@ -49,29 +47,29 @@ class ForgotPasswordController extends Controller
         if ($validator->fails()) {
             $response['response'] = $validator->messages();
             return response()->json([
-                'status'        => 'error',
-                'message'       => $validator->messages()
+                'status'  => 'error',
+                'message' => $validator->messages()
             ], 411);
         }
 
         return response()->json([
-            'status'        => 'success',
-            'message'       => "Reset code is valid"
+            'status'  => 'success',
+            'message' => "Reset code is valid"
         ]);
-
     }
 
-    public function resetPassword(Request $request){
+    public function resetPassword(Request $request)
+    {
         $validator = \Validator::make($request->all(), [
-            'code' => 'required|string|exists:reset_code_passwords',
+            'code'     => 'required|string|exists:reset_code_passwords',
             'password' => 'required|string|min:6|confirmed',
         ]);
 
         if ($validator->fails()) {
             $response['response'] = $validator->messages();
             return response()->json([
-                'status'        => 'error',
-                'message'       => $validator->messages()
+                'status'  => 'error',
+                'message' => $validator->messages()
             ], 411);
         }
 

@@ -1,17 +1,18 @@
 <?php
 
 namespace App\Http\Controllers;
+
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
-use App\Models\User;
 
 class AuthController extends Controller
 {
 
     public function __construct()
     {
-        $this->middleware('jwt.verify', ['except' => ['login','register']]);
+        $this->middleware('jwt.verify', ['except' => ['login', 'register']]);
     }
 
     public function login(Request $request)
@@ -24,11 +25,10 @@ class AuthController extends Controller
         if ($validator->fails()) {
             $response['response'] = $validator->messages();
             return response()->json([
-                'status'        => 'error',
-                'message'       => $validator->messages()
+                'status'  => 'error',
+                'message' => $validator->messages()
             ]);
         }
-
 
         $credentials = $request->only('email', 'password');
 
@@ -49,11 +49,10 @@ class AuthController extends Controller
                 'type'  => 'bearer',
             ]
         ]);
-
     }
 
-    public function register(Request $request){
-
+    public function register(Request $request)
+    {
         $validator = \Validator::make($request->all(), [
             'name'     => 'required|string|max:255',
             'email'    => 'required|string|email|max:255|unique:users',
@@ -63,8 +62,8 @@ class AuthController extends Controller
         if ($validator->fails()) {
             $response['response'] = $validator->messages();
             return response()->json([
-                'status'        => 'error',
-                'message'       => $validator->messages()
+                'status'  => 'error',
+                'message' => $validator->messages()
             ]);
         }
 
@@ -73,7 +72,6 @@ class AuthController extends Controller
             'email'    => $request->email,
             'password' => Hash::make($request->password),
         ]);
-
 
         $token = Auth::login($user);
         return response()->json([

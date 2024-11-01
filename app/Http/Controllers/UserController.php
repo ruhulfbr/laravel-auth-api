@@ -2,13 +2,13 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
 use App\Models\User;
+use Illuminate\Http\Request;
 
 class UserController extends Controller
 {
-    public function __construct(){
-
+    public function __construct()
+    {
     }
 
     public function index(Request $request)
@@ -18,12 +18,11 @@ class UserController extends Controller
             $perPage = 10;
         }
 
-        $users = User::paginate($perPage);   
+        $users = User::paginate($perPage);
 
         return response()->json([
             'status' => 'success',
             'users'  => $users
         ]);
-
     }
 }

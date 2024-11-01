@@ -1,10 +1,10 @@
 <?php
 
+use App\Http\Controllers\AuthController;
+use App\Http\Controllers\ForgotPasswordController;
+use App\Http\Controllers\UserController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\AuthController;
-use App\Http\Controllers\UserController;
-use App\Http\Controllers\ForgotPasswordController;
 
 /*
 |--------------------------------------------------------------------------
@@ -26,19 +26,18 @@ Route::controller(AuthController::class)->group(function () {
     Route::post('register', 'register');
     Route::post('logout', 'logout');
     Route::post('refresh', 'refresh');
-
 });
 
 Route::middleware('jwt.verify')->controller(UserController::class)->group(function () {
     Route::get('users', 'index');
-}); 
+});
 
- // Password reset routes
+// Password reset routes
 Route::prefix('password')->controller(ForgotPasswordController::class)->group(function () {
-    Route::post('email',  'index');
+    Route::post('email', 'index');
     Route::post('code/check', 'checkCode');
     Route::put('reset', 'resetPassword');
-}); 
+});
 
 
 
